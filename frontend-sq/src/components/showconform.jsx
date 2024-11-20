@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card} from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 function showconform() {
   const [complains, setcomplains] = useState([]);
@@ -35,3 +35,5 @@ function showconform() {
 }
 
 export default showconform;
+
+
