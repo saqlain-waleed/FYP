@@ -38,9 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'comform.apps.ComformConfig',
+    'accounts.apps.AccountsConfig',
     'rest_framework',
     'corsheaders',
+    'djoser',
 ]
+
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -88,6 +92,15 @@ DATABASES = {
     }
 }
 CORS_ORIGIN_WHITELIST=['http://localhost:5173']
+
+
+
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER='waleedsaqlain1@gmail.com'
+EMAIL_HOST_PASSWORD='cmcwndyailfwhgka'
+EMAIL_USE_TLS=True
 
 
 # Password validation
@@ -138,3 +151,34 @@ import os
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL='/media/'
+
+
+AUTH_USER_MODEL='accounts.UserAccount'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
+}
+DJOSER={
+    'LOGIN_FIELD':'email',
+    'USER_CREATE_PASSWORD_RETYPE':True,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION':True,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION':True,
+    'SEND_CONFIRMATION_EMAIL':True,
+    'SET_PASSWORD_RETYPE':True,
+    'PASSWORD_RESET_CONFIRM_URL':'password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL':'email/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL':'activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL':True,
+    'SERIALIZERS':{
+        'user_create':'accounts.serializers.UserCreateSerializer',
+        'user':'accounts.serializers.UserCreateSerializer',
+        'user_delete':'djoser.serializers.UserDeleteSerializer',
+
+    }
+}
